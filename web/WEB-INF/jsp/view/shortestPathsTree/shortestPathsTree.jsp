@@ -809,7 +809,7 @@ The edges that belong to the Shortest Path Tree are colored blue, the other edge
         <input type="submit" name="search-btn" value="Find largest SCC">
       </form>
       <p>Click here for a step</p>
-      <form name="stepFormForm" id="stepForm">
+      <form name="stepForm" id="stepForm">
         <input type="submit" name="search-btn" value="Step">
       </form>
       <p>Click here to initialize</p>
