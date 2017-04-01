@@ -485,7 +485,6 @@ function canvasApp() {
   		for (var i1 = 0; i1 < N; i1++) {// for each vertex
 			vertexArray.push({"name":graph.mV[i1].mName});
 			for (var i2 = 0; i2 < graph.mAdj[i1].length; i2++) {// for each adjacent vertex
-				console.log("push edge: " + i1 + " " + graph.mAdj[i1][i2]);
 				edgeArray.push({"from":i1, "to":graph.mAdj[i1][i2]});
 			}// i2
   		}// i1
@@ -663,7 +662,6 @@ function canvasApp() {
  	}
  	
  	function searchStep() {
- 		console.log("fuuucking searchstep");
  		
 		message = {"type":"STEP"};// minimal message
 	   	$('#largestSccForm').find(':submit')[0].disabled = true;

@@ -122,11 +122,8 @@ public class DFSGraph extends Graph implements Serializable {
 		 * then DFS on this.transpose() with indices 
 		 * ordered by decreasing f of this obtained by the first DFS
 		 * */
-		System.out.println("findSCC begin");
 		StepResult result1 = this.search(false);// first DFS
-		
-		System.out.println("findSCC sator");
-		
+			
 		Integer[] fin = new Integer[this.N];
 		
 		for (int i = 0; i < this.N; i++) {
@@ -135,8 +132,6 @@ public class DFSGraph extends Graph implements Serializable {
 		}
 			
 		DFSGraph tGraph = this.transpose();// build transposed graph
-		
-		System.out.println("findSCC arepo");
 		
 		// reorder indices of tGraph
 		tGraph.reorder(fin);
@@ -223,14 +218,9 @@ public class DFSGraph extends Graph implements Serializable {
 			
 			
 			if (dfsvTrans.getTree() == indMax) {// transposed graph
-				System.out.println("jackpot"); 
 				comp.getVertices()[indComp++] = mstv;
-			    System.out.println("adding a new vertex " + mstv.getName()
-			    			+ " adj " + dfsvOld.getAdjacency().size());
 			            
 				for (int k = 0; k < dfsvOld.getAdjacency().size(); k++) {
-					System.out.println("allah " + oldToNew[dfsvOld.getAdjacency().get(k).getTo()]);
-					//WeightedEdge edge = new WeightedEdge();
 					if (oldToNew[dfsvOld.getAdjacency().get(k).getTo()] != null) {
 						mstv.getAdjacency().add(
 			            			new WeightedEdge(oldToNew[dfsvOld.getAdjacency().get(k).getTo()]));
@@ -240,154 +230,12 @@ public class DFSGraph extends Graph implements Serializable {
 			}// if
 			 
 		}// for
-		
-		System.out.println("display2");
-		//comp.displaySPT();
-		
-		// here comp is available
-		
-		comp.display2();
 		
 		return comp;
 		
 	}// getLargestSCC
 	
-	public StepResult findSCC() {
-		/** DFS on this with natural indices order 
-		 * then DFS on this.transpose() with indices 
-		 * ordered by decreasing f of this obtained by the first DFS
-		 * */
-		System.out.println("findSCC begin");
-		StepResult result1 = this.search(false);// first DFS
 		
-		System.out.println("findSCC sator");
-		
-		Integer[] fin = new Integer[this.N];
-		
-		for (int i = 0; i < this.N; i++) {
-			fin[i] = result1.getVertices()[i].getF();
-			System.out.println(fin[i]);
-		}
-			
-		DFSGraph tGraph = this.transpose();// build transposed graph
-		
-		System.out.println("findSCC arepo");
-		
-		// reorder indices of tGraph
-		tGraph.reorder(fin);
-		
-		StepResult result2 = tGraph.search(true);// second DFS
-		
-		System.out.println("tGraph");
-	    tGraph.displayDFS();
-	    
-	    // find largest SCC
-	    
-	    int maxTreeNum = 0; 
-		
-		for (int i = 0; i < tGraph.getN(); i++) {// for each vertex
-	
-			DFSVertex dfsv = (DFSVertex)tGraph.getVertices()[i];
-			System.out.println("for "  + i + " " + dfsv.getTree());
-			
-			if (dfsv.getTree() > maxTreeNum) {
-				maxTreeNum = dfsv.getTree();
-			}
-		}// for
-	    
-		System.out.println("maxTreeNum " + maxTreeNum);
-		
-		int[] treeSizes = new int[maxTreeNum + 1];
-		
-		for (int i = 0; i < maxTreeNum; i++) {
-		      treeSizes[i] = 0;
-		}
-			    
-		for (int i = 0; i < N; i++) {
-			treeSizes[((DFSVertex)tGraph.getVertices()[i]).getTree()]++;
-		}// for
-				 	
-		// find largest tree index
-	    int indMax = 0;
-	    for (int i = 0; i < maxTreeNum; i++) {
-	    	if (treeSizes[i] > treeSizes[indMax]) {
-	    		indMax = i;
-	    	}
-	    }
-	    
-	    System.out.println("largest component index: " + indMax);
-	    System.out.println("largest component size: " + treeSizes[indMax]);
-		int compSize = treeSizes[indMax];
-		
-		// now build a new strongly connected graph with new numbering
-		SPTGraph comp = new SPTGraph(compSize);
-		
-		// helper arrays
-		Integer[] oldToNew = new Integer[N];  
-					    
-		Integer newInd = 0;
-					   
-		for (int i = 0; i < N; i++) {
-			// select only vertices that belong to the largest component
-			DFSVertex dfsv = (DFSVertex)tGraph.getVertices()[i];
-			if (dfsv.getTree() == indMax) {// vertex selected
-				oldToNew[i] = newInd++;
-			} else {
-				oldToNew[i] = null;
-			}
-		}// for
-		
-		System.out.println("oldToNew");
-		for (int i = 0; i < N; i++) {
-			System.out.println(i + " " +  oldToNew[i]);
-		}
-		
-		int indComp = 0;
-		
-		
-		for (int i1 = 0; i1 < N; i1++) {// for each original vertex
-	          
-			// select only vertices that belong to the largest component
-			DFSVertex dfsvOld = (DFSVertex)this.getVertices()[i1];
-			DFSVertex dfsvTrans = (DFSVertex)tGraph.getVertices()[i1];
-			      	 	
-			SPTVertex mstv = new SPTVertex(dfsvOld);
-			mstv.setAdjacency(new ArrayList<WeightedEdge>());// initialize with empty list
-			  
-			System.out.println("tree " + dfsvTrans.getTree() + " " + indMax);
-			
-			
-			if (dfsvTrans.getTree() == indMax) {// transposed graph
-				System.out.println("jackpot"); 
-				comp.getVertices()[indComp++] = mstv;
-			    System.out.println("adding a new vertex " + mstv.getName()
-			    			+ " adj " + dfsvOld.getAdjacency().size());
-			            
-				for (int k = 0; k < dfsvOld.getAdjacency().size(); k++) {
-					System.out.println("allah " + oldToNew[dfsvOld.getAdjacency().get(k).getTo()]);
-					//WeightedEdge edge = new WeightedEdge();
-					if (oldToNew[dfsvOld.getAdjacency().get(k).getTo()] != null) {
-						mstv.getAdjacency().add(
-			            			new WeightedEdge(oldToNew[dfsvOld.getAdjacency().get(k).getTo()]));
-					}
-				}
-				
-			}// if
-			 
-		}// for
-		
-		System.out.println("display2");
-		//comp.displaySPT();
-		
-		// here comp is available
-		
-		comp.display2();
-		
-		return result2;
-		
-	}// findSCC
-
-	
 	/** main search method */
 	public StepResult search(boolean second) {
 		System.out.println("search begin with index " + index);
@@ -478,17 +326,7 @@ public class DFSGraph extends Graph implements Serializable {
 	        
 	}// searchStep
 	
-	// better move it to service layer
-	public SPTGraph getComp() {
-		
-		this.findSCC();
-		
-		SPTGraph comp = new SPTGraph(N);
-		
-		return comp;
-	}
 	
-
 	// helper methods
 		
 	public Integer findNotVisited() {
@@ -575,3 +413,4 @@ public class DFSGraph extends Graph implements Serializable {
 		}
 	}	
 }
+
