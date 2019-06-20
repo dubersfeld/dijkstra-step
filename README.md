@@ -1,6 +1,4 @@
 # dijkstra-step
-Java based step-by-step demonstration of the Dijkstra algorithm applied to build a Shortest Paths Tree on a strongly connected directed graph
-
 I present here a Java based demonstration of the Dijkstra algorithm that builds a Shortest Paths Tree on a given weighted directed graph.
 
 The graph is strongly connected. This is of course not a requirement for using the Dijkstra algorithm, only a convenience choice that makes the demonstration easier because the source is connected to any vertex.
@@ -24,10 +22,19 @@ A newly discovered vertex is drawn green. A finalized vertex is drawned blue.
 The distance to the source is displayed for each vertex at each step.
 
 All vertices outside the source are initialized with distance 1000.
- 
-When deployed on Tomcat the context root is:
 
-dikstra-shortest-path
+# Launching the demo
+To launch the demo run the command `mvn spring-boot:run` in project directory. When the application has started open a browser and hit URL `localhost:8080/dijkstra-shortest-path`.
+
+Here are some screen shots that can be seen during the demo:
+
+![alt text](images/initGraph.png "Initial graph")
+
+![alt text](images/searchStep.png "Search step")
+
+![alt text](images/searchCompleted.png "Search completed")
+ 
+
 
 
 Dominique Ubersfeld, Cachan, France   
