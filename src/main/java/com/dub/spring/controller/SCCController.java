@@ -35,7 +35,6 @@ public class SCCController {
 	public SPTResponse initGraph(@RequestBody GraphInitRequest message, 
 				HttpServletRequest request) 
 	{	
-		System.out.println("Fucking /initGraph completed");
 		
 		List<JSONEdge> jsonEdges = message.getJsonEdges();
 		List<JSONVertex> jsonVertices = message.getJsonVertices();
